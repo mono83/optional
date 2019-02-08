@@ -41,3 +41,11 @@ func (t Time) IfPresent(f func(time.Time)) {
 		f(*t.time)
 	}
 }
+
+// IfPresent invokes provided callback if optional contains some value
+// If optional is empty, callback will not be invoked
+func (d Duration) IfPresent(f func(time.Duration)) {
+	if f != nil && d.duration != nil {
+		f(*d.duration)
+	}
+}

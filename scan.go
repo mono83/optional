@@ -136,3 +136,35 @@ func (t *TimeUnixSeconds) Scan(src interface{}) error {
 
 	return nil
 }
+
+// Scan is sql.Scanner interface implementation
+func (d *DurationSeconds) Scan(src interface{}) error {
+	if src == nil {
+		d.duration = nil
+		return nil
+	}
+
+	switch src.(type) {
+	case []byte:
+		sc := string(src.([]byte))
+		ic, err := strconv.Atoi(sc)
+		if err != nil {
+			return err
+		}
+		tc := time.Duration(int64(ic)) * time.Second
+		d.duration = &tc
+	case int64:
+		v := time.Duration(src.(int64)) * time.Second
+		d.duration = &v
+	case int:
+		v := time.Duration(int64(src.(int))) * time.Second
+		d.duration = &v
+	case time.Duration:
+		v := src.(time.Duration)
+		d.duration = &v
+	default:
+		return fmt.Errorf("unsupported type %T for scanning", src)
+	}
+
+	return nil
+}

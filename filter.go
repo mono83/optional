@@ -52,3 +52,14 @@ func (t Time) Filter(f func(time.Time) bool) Time {
 
 	return t
 }
+
+// Filter method applies predicate on optional content
+// Resulting optional will be non empty only if predicate returns true and original value inside
+// optional was not empty.
+func (d Duration) Filter(f func(time.Duration) bool) Duration {
+	if f == nil || d.duration == nil || !f(*d.duration) {
+		return emptyDuration
+	}
+
+	return d
+}

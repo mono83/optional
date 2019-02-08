@@ -46,3 +46,11 @@ func (t Time) String() string {
 
 	return "Optional[" + t.time.String() + "]"
 }
+
+func (d Duration) String() string {
+	if d.duration == nil {
+		return "Optional.Empty"
+	}
+
+	return "Optional[" + d.duration.String() + "]"
+}

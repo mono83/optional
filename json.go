@@ -3,6 +3,7 @@ package optional
 import (
 	"bytes"
 	"encoding/json"
+	"time"
 )
 
 var jsonNull = []byte("null")
@@ -103,5 +104,28 @@ func (t *TimeUnixSeconds) UnmarshalJSON(text []byte) error {
 	}
 	tc := OfUnixSeconds(sec)
 	*t = tc
+	return nil
+}
+
+// MarshalJSON is json.Marshaler interface implementation
+func (d DurationSeconds) MarshalJSON() (text []byte, err error) {
+	if d.duration == nil {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(int(*d.duration / time.Second))
+}
+
+// UnmarshalJSON is json.Unmarshaler interface implementation
+func (d *DurationSeconds) UnmarshalJSON(text []byte) error {
+	if bytes.Equal(jsonNull, text) {
+		d.duration = nil
+		return nil
+	}
+	var sec int
+	if err := json.Unmarshal(text, &sec); err != nil {
+		return err
+	}
+	tc := OfSeconds(sec)
+	*d = tc
 	return nil
 }

@@ -46,3 +46,12 @@ func (t Time) OrElse(els time.Time) time.Time {
 
 	return *t.time
 }
+
+// OrElse returns value from optional or provided value if optional is empty
+func (d Duration) OrElse(els time.Duration) time.Duration {
+	if d.duration == nil {
+		return els
+	}
+
+	return *d.duration
+}

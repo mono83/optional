@@ -1,5 +1,11 @@
 package optional
 
+import "time"
+
+/*
+   Bool map functions
+*/
+
 // Map applies mapping function on optional value if it presents
 func (b Bool) Map(f func(bool) bool) Bool {
 	if f == nil || b.bool == nil {
@@ -35,6 +41,10 @@ func (b Bool) MapToFloat64(f func(bool) float64) Float64 {
 
 	return OfFloat64(f(*b.bool))
 }
+
+/*
+   Int map functions
+*/
 
 // Map applies mapping function on optional value if it presents
 func (i Int) Map(f func(int) int) Int {
@@ -72,6 +82,10 @@ func (i Int) MapToFloat64(f func(int) float64) Float64 {
 	return OfFloat64(f(*i.int))
 }
 
+/*
+   String map functions
+*/
+
 // Map applies mapping function on optional value if it presents
 func (s String) Map(f func(string) string) String {
 	if f == nil || s.string == nil {
@@ -108,6 +122,10 @@ func (s String) MapToFloat64(f func(string) float64) Float64 {
 	return OfFloat64(f(*s.string))
 }
 
+/*
+   Float64 map functions
+*/
+
 // Map applies mapping function on optional value if it presents
 func (f Float64) Map(c func(float64) float64) Float64 {
 	if c == nil || f.float64 == nil {
@@ -142,4 +160,30 @@ func (f Float64) MapToString(c func(float64) string) String {
 	}
 
 	return OfString(c(*f.float64))
+}
+
+/*
+   Time map functions
+*/
+
+// Map applies mapping function on optional value if it presents
+func (t Time) Map(f func(time.Time) time.Time) Time {
+	if f == nil || t.time == nil {
+		return emptyTime
+	}
+
+	return OfTime(f(*t.time))
+}
+
+/*
+   Int map functions
+*/
+
+// Map applies mapping function on optional value if it presents
+func (d Duration) Map(f func(time.Duration) time.Duration) Duration {
+	if f == nil || d.duration == nil {
+		return emptyDuration
+	}
+
+	return OfDuration(f(*d.duration))
 }

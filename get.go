@@ -36,3 +36,10 @@ func (f Float64) Get() float64 {
 func (t Time) Get() time.Time {
 	return *t.time
 }
+
+// Get returns value from optional.
+// Invocation on empty optional will cause panic: invalid memory address or nil pointer dereference
+// Perform .IsPresent check or use .OrElse to avoid manic
+func (d Duration) Get() time.Duration {
+	return *d.duration
+}

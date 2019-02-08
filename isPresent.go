@@ -24,3 +24,8 @@ func (f Float64) IsPresent() bool {
 func (t Time) IsPresent() bool {
 	return t.time != nil
 }
+
+// IsPresent returns true if optional contains value and false for null
+func (d Duration) IsPresent() bool {
+	return d.duration != nil
+}

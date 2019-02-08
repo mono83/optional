@@ -2,9 +2,10 @@ package optional
 
 import (
 	"encoding/json"
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var textSource = `{
@@ -23,7 +24,9 @@ var textSource = `{
   "f3": 0,
   "f4": null,
   "ts1": 1384923976,
-  "ts2": null
+  "ts2": null,
+  "d1": 42,
+  "d2": null
 }`
 
 func TestJSONMarshalling(t *testing.T) {
@@ -48,6 +51,9 @@ func TestJSONMarshalling(t *testing.T) {
 
 		TS1 TimeUnixSeconds `json:"ts1"`
 		TS2 TimeUnixSeconds `json:"ts2"`
+
+		D1 DurationSeconds `json:"d1"`
+		D2 DurationSeconds `json:"d2"`
 	}
 
 	if err := json.Unmarshal([]byte(textSource), &target); assert.NoError(t, err) {
@@ -67,6 +73,8 @@ func TestJSONMarshalling(t *testing.T) {
 		assert.False(t, target.F4.IsPresent())
 		assert.True(t, target.TS1.IsPresent())
 		assert.False(t, target.TS2.IsPresent())
+		assert.True(t, target.D1.IsPresent())
+		assert.False(t, target.D2.IsPresent())
 
 		assert.True(t, target.B1.OrElse(false))
 		assert.False(t, target.B2.OrElse(true))
@@ -79,6 +87,7 @@ func TestJSONMarshalling(t *testing.T) {
 		assert.Equal(t, -376.11, target.F2.OrElse(1))
 		assert.Equal(t, float64(0), target.F3.OrElse(1))
 		assert.Equal(t, time.Unix(1384923976, 0).UTC(), target.TS1.OrNow())
+		assert.Equal(t, 42*time.Second, target.D1.OrElse(time.Second))
 
 		if bts, err := json.MarshalIndent(target, "", "  "); assert.NoError(t, err) {
 			assert.Equal(t, textSource, string(bts))
