@@ -3,6 +3,7 @@ package optional
 import (
 	"fmt"
 	"strconv"
+	"time"
 )
 
 // Scan is sql.Scanner interface implementation
@@ -97,6 +98,38 @@ func (f *Float64) Scan(src interface{}) error {
 	case int:
 		v := float64(src.(int))
 		f.float64 = &v
+	default:
+		return fmt.Errorf("unsupported type %T for scanning", src)
+	}
+
+	return nil
+}
+
+// Scan is sql.Scanner interface implementation
+func (t *TimeUnixSeconds) Scan(src interface{}) error {
+	if src == nil {
+		t.time = nil
+		return nil
+	}
+
+	switch src.(type) {
+	case []byte:
+		sc := string(src.([]byte))
+		ic, err := strconv.Atoi(sc)
+		if err != nil {
+			return err
+		}
+		tc := time.Unix(int64(ic), 0).UTC()
+		t.time = &tc
+	case int64:
+		v := time.Unix(src.(int64), 0).UTC()
+		t.time = &v
+	case int:
+		v := time.Unix(int64(src.(int)), 0).UTC()
+		t.time = &v
+	case time.Time:
+		v := src.(time.Time)
+		t.time = &v
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}

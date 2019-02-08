@@ -38,3 +38,11 @@ func (f Float64) String() string {
 
 	return fmt.Sprintf("Optional[%f]", *f.float64)
 }
+
+func (t Time) String() string {
+	if t.time == nil {
+		return "Optional.Empty"
+	}
+
+	return "Optional[" + t.time.String() + "]"
+}

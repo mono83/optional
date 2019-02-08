@@ -3,6 +3,7 @@ package optional
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
 type uniOptional interface {
@@ -21,6 +22,7 @@ var scanData = []struct {
 	{nil, &Int{}, false, "Optional.Empty"},
 	{nil, &String{}, false, "Optional.Empty"},
 	{nil, &Float64{}, false, "Optional.Empty"},
+	{nil, &TimeUnixSeconds{}, false, "Optional.Empty"},
 
 	{[]uint8("true"), &Bool{}, true, "Optional[true]"},
 	{[]uint8("1"), &Bool{}, true, "Optional[true]"},
@@ -43,6 +45,11 @@ var scanData = []struct {
 	{[]uint8("-3.1415"), &Float64{}, true, "Optional[-3.141500]"},
 	{65.112, &Float64{}, true, "Optional[65.112000]"},
 	{3, &Float64{}, true, "Optional[3.000000]"},
+
+	{[]uint8("12345"), &TimeUnixSeconds{}, true, "Optional[1970-01-01 03:25:45 +0000 UTC]"},
+	{-432112312, &TimeUnixSeconds{}, true, "Optional[1956-04-22 16:48:08 +0000 UTC]"},
+	{int64(22), &TimeUnixSeconds{}, true, "Optional[1970-01-01 00:00:22 +0000 UTC]"},
+	{time.Unix(123456789, 2231).UTC(), &TimeUnixSeconds{}, true, "Optional[1973-11-29 21:33:09.000002231 +0000 UTC]"},
 }
 
 func TestScan(t *testing.T) {

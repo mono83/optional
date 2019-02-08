@@ -82,3 +82,26 @@ func (f *Float64) UnmarshalJSON(text []byte) error {
 	*f = t
 	return nil
 }
+
+// MarshalJSON is json.Marshaler interface implementation
+func (t TimeUnixSeconds) MarshalJSON() (text []byte, err error) {
+	if t.time == nil {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(t.time.Unix())
+}
+
+// UnmarshalJSON is json.Unmarshaler interface implementation
+func (t *TimeUnixSeconds) UnmarshalJSON(text []byte) error {
+	if bytes.Equal(jsonNull, text) {
+		t.time = nil
+		return nil
+	}
+	var sec int
+	if err := json.Unmarshal(text, &sec); err != nil {
+		return err
+	}
+	tc := OfUnixSeconds(sec)
+	*t = tc
+	return nil
+}

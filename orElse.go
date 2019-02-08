@@ -1,5 +1,7 @@
 package optional
 
+import "time"
+
 // OrElse returns value from optional or provided value if optional is empty
 func (b Bool) OrElse(els bool) bool {
 	if b.bool == nil {
@@ -34,4 +36,13 @@ func (f Float64) OrElse(els float64) float64 {
 	}
 
 	return *f.float64
+}
+
+// OrElse returns value from optional or provided value if optional is empty
+func (t Time) OrElse(els time.Time) time.Time {
+	if t.time == nil {
+		return els
+	}
+
+	return *t.time
 }
