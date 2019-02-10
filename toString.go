@@ -5,8 +5,10 @@ import (
 	"strconv"
 )
 
+const optEmptyString = "Optional.Empty"
+
 func (b Bool) String() string {
-	if b.bool == nil {
+	if !b.IsPresent() {
 		return "Optional.Empty"
 	} else if *b.bool {
 		return "Optional[true]"
@@ -16,41 +18,39 @@ func (b Bool) String() string {
 }
 
 func (i Int) String() string {
-	if i.int == nil {
-		return "Optional.Empty"
+	if i.IsPresent() {
+		return "Optional[" + strconv.Itoa(*i.int) + "]"
 	}
-
-	return "Optional[" + strconv.Itoa(*i.int) + "]"
+	return optEmptyString
 }
 
 func (s String) String() string {
-	if s.string == nil {
-		return "Optional.Empty"
+	if s.IsPresent() {
+		return "Optional[" + *s.string + "]"
 	}
-
-	return "Optional[" + *s.string + "]"
+	return optEmptyString
 }
 
 func (f Float64) String() string {
-	if f.float64 == nil {
-		return "Optional.Empty"
+	if f.IsPresent() {
+		return fmt.Sprintf("Optional[%f]", *f.float64)
 	}
 
-	return fmt.Sprintf("Optional[%f]", *f.float64)
+	return optEmptyString
 }
 
 func (t Time) String() string {
-	if t.time == nil {
-		return "Optional.Empty"
+	if t.IsPresent() {
+		return "Optional[" + t.time.String() + "]"
 	}
 
-	return "Optional[" + t.time.String() + "]"
+	return optEmptyString
 }
 
 func (d Duration) String() string {
-	if d.duration == nil {
-		return "Optional.Empty"
+	if d.IsPresent() {
+		return "Optional[" + d.duration.String() + "]"
 	}
 
-	return "Optional[" + d.duration.String() + "]"
+	return optEmptyString
 }

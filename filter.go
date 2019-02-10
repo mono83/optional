@@ -6,7 +6,7 @@ import "time"
 // Resulting optional will be non empty only if predicate returns true and original value inside
 // optional was not empty.
 func (b Bool) Filter(f func(bool) bool) Bool {
-	if f == nil || b.bool == nil || !f(*b.bool) {
+	if f == nil || !b.IsPresent() || !f(*b.bool) {
 		return emptyBool
 	}
 	return b
@@ -16,7 +16,7 @@ func (b Bool) Filter(f func(bool) bool) Bool {
 // Resulting optional will be non empty only if predicate returns true and original value inside
 // optional was not empty.
 func (s String) Filter(f func(string) bool) String {
-	if f == nil || s.string == nil || !f(*s.string) {
+	if f == nil || !s.IsPresent() || !f(*s.string) {
 		return emptyString
 	}
 	return s
@@ -26,7 +26,7 @@ func (s String) Filter(f func(string) bool) String {
 // Resulting optional will be non empty only if predicate returns true and original value inside
 // optional was not empty.
 func (i Int) Filter(f func(int) bool) Int {
-	if f == nil || i.int == nil || !f(*i.int) {
+	if f == nil || !i.IsPresent() || !f(*i.int) {
 		return emptyInt
 	}
 	return i
@@ -36,7 +36,7 @@ func (i Int) Filter(f func(int) bool) Int {
 // Resulting optional will be non empty only if predicate returns true and original value inside
 // optional was not empty.
 func (f Float64) Filter(c func(float64) bool) Float64 {
-	if c == nil || f.float64 == nil || !c(*f.float64) {
+	if c == nil || !f.IsPresent() || !c(*f.float64) {
 		return emptyFloat64
 	}
 	return f
@@ -46,7 +46,7 @@ func (f Float64) Filter(c func(float64) bool) Float64 {
 // Resulting optional will be non empty only if predicate returns true and original value inside
 // optional was not empty.
 func (t Time) Filter(f func(time.Time) bool) Time {
-	if f == nil || t.time == nil || !f(*t.time) {
+	if f == nil || !t.IsPresent() || !f(*t.time) {
 		return emptyTime
 	}
 
@@ -57,9 +57,20 @@ func (t Time) Filter(f func(time.Time) bool) Time {
 // Resulting optional will be non empty only if predicate returns true and original value inside
 // optional was not empty.
 func (d Duration) Filter(f func(time.Duration) bool) Duration {
-	if f == nil || d.duration == nil || !f(*d.duration) {
+	if f == nil || !d.IsPresent() || !f(*d.duration) {
 		return emptyDuration
 	}
 
 	return d
+}
+
+// Filter method applies predicate on optional content
+// Resulting optional will be non empty only if predicate returns true and original value inside
+// optional was not empty.
+func (m Mixed) Filter(f func(interface{}) bool) Mixed {
+	if f == nil || !m.IsPresent() || !f(m.mixed) {
+		return emptyMixed
+	}
+
+	return m
 }

@@ -5,7 +5,7 @@ import "time"
 // IfPresent invokes provided callback if optional contains some value
 // If optional is empty, callback will not be invoked
 func (b Bool) IfPresent(f func(bool)) {
-	if f != nil && b.bool != nil {
+	if f != nil && b.IsPresent() {
 		f(*b.bool)
 	}
 }
@@ -13,7 +13,7 @@ func (b Bool) IfPresent(f func(bool)) {
 // IfPresent invokes provided callback if optional contains some value
 // If optional is empty, callback will not be invoked
 func (s String) IfPresent(f func(string)) {
-	if f != nil && s.string != nil {
+	if f != nil && s.IsPresent() {
 		f(*s.string)
 	}
 }
@@ -21,7 +21,7 @@ func (s String) IfPresent(f func(string)) {
 // IfPresent invokes provided callback if optional contains some value
 // If optional is empty, callback will not be invoked
 func (i Int) IfPresent(f func(int)) {
-	if f != nil && i.int != nil {
+	if f != nil && i.IsPresent() {
 		f(*i.int)
 	}
 }
@@ -29,7 +29,7 @@ func (i Int) IfPresent(f func(int)) {
 // IfPresent invokes provided callback if optional contains some value
 // If optional is empty, callback will not be invoked
 func (f Float64) IfPresent(c func(float64)) {
-	if c != nil && f.float64 != nil {
+	if c != nil && f.IsPresent() {
 		c(*f.float64)
 	}
 }
@@ -37,7 +37,7 @@ func (f Float64) IfPresent(c func(float64)) {
 // IfPresent invokes provided callback if optional contains some value
 // If optional is empty, callback will not be invoked
 func (t Time) IfPresent(f func(time.Time)) {
-	if f != nil && t.time != nil {
+	if f != nil && t.IsPresent() {
 		f(*t.time)
 	}
 }
@@ -45,7 +45,15 @@ func (t Time) IfPresent(f func(time.Time)) {
 // IfPresent invokes provided callback if optional contains some value
 // If optional is empty, callback will not be invoked
 func (d Duration) IfPresent(f func(time.Duration)) {
-	if f != nil && d.duration != nil {
+	if f != nil && d.IsPresent() {
 		f(*d.duration)
+	}
+}
+
+// IfPresent invokes provided callback if optional contains some value
+// If optional is empty, callback will not be invoked
+func (m Mixed) IfPresent(f func(interface{})) {
+	if f != nil && m.IsPresent() {
+		f(m.mixed)
 	}
 }

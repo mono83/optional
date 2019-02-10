@@ -43,3 +43,14 @@ func (t Time) Get() time.Time {
 func (d Duration) Get() time.Duration {
 	return *d.duration
 }
+
+// Get returns value from optional.
+// Invocation on empty optional will cause panic: nil in mixed value
+// Perform .IsPresent check or use .OrElse to avoid manic
+func (m Mixed) Get() interface{} {
+	if !m.IsPresent() {
+		panic("nil in mixed value")
+	}
+
+	return m.mixed
+}
