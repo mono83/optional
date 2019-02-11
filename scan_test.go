@@ -57,6 +57,16 @@ var scanData = []struct {
 	{-15, &DurationSeconds{}, true, "Optional[-15s]"},
 	{int64(2), &DurationSeconds{}, true, "Optional[2s]"},
 	{time.Second * 8, &DurationSeconds{}, true, "Optional[8s]"},
+
+	{[]uint8("2500"), &DurationMillis{}, true, "Optional[2.5s]"},
+	{-1000, &DurationMillis{}, true, "Optional[-1s]"},
+	{int64(20000), &DurationMillis{}, true, "Optional[20s]"},
+	{time.Second * 8, &DurationMillis{}, true, "Optional[8s]"},
+
+	{[]uint8("8"), &DurationMinutes{}, true, "Optional[8m0s]"},
+	{-10, &DurationMinutes{}, true, "Optional[-10m0s]"},
+	{int64(5), &DurationMinutes{}, true, "Optional[5m0s]"},
+	{time.Second * 8, &DurationMinutes{}, true, "Optional[8s]"},
 }
 
 func TestScan(t *testing.T) {

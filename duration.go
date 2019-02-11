@@ -23,6 +23,18 @@ func OfSeconds(sec int) DurationSeconds {
 	return DurationSeconds{Duration: Duration{duration: &d}}
 }
 
+// OfMilliseconds creates new optional time.Duration containing provided duration in milliseconds
+func OfMilliseconds(millis int) DurationMillis {
+	d := time.Duration(int64(millis)) * time.Millisecond
+	return DurationMillis{Duration: Duration{duration: &d}}
+}
+
+// OfMinutes creates new optional time.Duration containing provided duration in minutes
+func OfMinutes(minutes int) DurationMinutes {
+	d := time.Duration(int64(minutes)) * time.Minute
+	return DurationMinutes{Duration: Duration{duration: &d}}
+}
+
 // FilterZero applies zero value filtering
 // This method will return empty optional if value inside optional is zero or missing
 func (d Duration) FilterZero() Duration {
@@ -35,5 +47,15 @@ func (d Duration) FilterZero() Duration {
 
 // DurationSeconds is wrapper over Duration to be used in JSON and SQL mappers
 type DurationSeconds struct {
+	Duration
+}
+
+// DurationMillis is wrapper over Duration to be used in JSON and SQL mappers
+type DurationMillis struct {
+	Duration
+}
+
+// DurationMinutes is wrapper over Duration to be used in JSON and SQL mappers
+type DurationMinutes struct {
 	Duration
 }

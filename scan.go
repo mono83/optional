@@ -168,3 +168,67 @@ func (d *DurationSeconds) Scan(src interface{}) error {
 
 	return nil
 }
+
+// Scan is sql.Scanner interface implementation
+func (d *DurationMillis) Scan(src interface{}) error {
+	if src == nil {
+		d.duration = nil
+		return nil
+	}
+
+	switch src.(type) {
+	case []byte:
+		sc := string(src.([]byte))
+		ic, err := strconv.Atoi(sc)
+		if err != nil {
+			return err
+		}
+		tc := time.Duration(int64(ic)) * time.Millisecond
+		d.duration = &tc
+	case int64:
+		v := time.Duration(src.(int64)) * time.Millisecond
+		d.duration = &v
+	case int:
+		v := time.Duration(int64(src.(int))) * time.Millisecond
+		d.duration = &v
+	case time.Duration:
+		v := src.(time.Duration)
+		d.duration = &v
+	default:
+		return fmt.Errorf("unsupported type %T for scanning", src)
+	}
+
+	return nil
+}
+
+// Scan is sql.Scanner interface implementation
+func (d *DurationMinutes) Scan(src interface{}) error {
+	if src == nil {
+		d.duration = nil
+		return nil
+	}
+
+	switch src.(type) {
+	case []byte:
+		sc := string(src.([]byte))
+		ic, err := strconv.Atoi(sc)
+		if err != nil {
+			return err
+		}
+		tc := time.Duration(int64(ic)) * time.Minute
+		d.duration = &tc
+	case int64:
+		v := time.Duration(src.(int64)) * time.Minute
+		d.duration = &v
+	case int:
+		v := time.Duration(int64(src.(int))) * time.Minute
+		d.duration = &v
+	case time.Duration:
+		v := src.(time.Duration)
+		d.duration = &v
+	default:
+		return fmt.Errorf("unsupported type %T for scanning", src)
+	}
+
+	return nil
+}

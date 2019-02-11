@@ -49,7 +49,8 @@ Data types:
 * `optional.String` - for strings
 * `optional.Float64` - for floats
 * `optional.Time` - for `time.Time`, mapping using `optional.TimeUnixSeconds`
-* `optional.Duration` - for `time.Duration`, mapping using `optional.DurationSeconds`
+* `optional.Duration` - for `time.Duration`, mapping using `optional.DurationSeconds`,
+  `optional.DurationMillis` or `optional.DurationMinutes`
 
 Common methods for all data types:
 * `Get` - returns value from optional, but panics if optional is empty

@@ -129,3 +129,49 @@ func (d *DurationSeconds) UnmarshalJSON(text []byte) error {
 	*d = tc
 	return nil
 }
+
+// MarshalJSON is json.Marshaler interface implementation
+func (d DurationMillis) MarshalJSON() (text []byte, err error) {
+	if d.duration == nil {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(int(*d.duration / time.Millisecond))
+}
+
+// UnmarshalJSON is json.Unmarshaler interface implementation
+func (d *DurationMillis) UnmarshalJSON(text []byte) error {
+	if bytes.Equal(jsonNull, text) {
+		d.duration = nil
+		return nil
+	}
+	var millis int
+	if err := json.Unmarshal(text, &millis); err != nil {
+		return err
+	}
+	tc := OfMilliseconds(millis)
+	*d = tc
+	return nil
+}
+
+// MarshalJSON is json.Marshaler interface implementation
+func (d DurationMinutes) MarshalJSON() (text []byte, err error) {
+	if d.duration == nil {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(int(*d.duration / time.Minute))
+}
+
+// UnmarshalJSON is json.Unmarshaler interface implementation
+func (d *DurationMinutes) UnmarshalJSON(text []byte) error {
+	if bytes.Equal(jsonNull, text) {
+		d.duration = nil
+		return nil
+	}
+	var minutes int
+	if err := json.Unmarshal(text, &minutes); err != nil {
+		return err
+	}
+	tc := OfMinutes(minutes)
+	*d = tc
+	return nil
+}
