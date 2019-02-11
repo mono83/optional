@@ -23,6 +23,16 @@ func OfSeconds(sec int) DurationSeconds {
 	return DurationSeconds{Duration: Duration{duration: &d}}
 }
 
+// FilterZero applies zero value filtering
+// This method will return empty optional if value inside optional is zero or missing
+func (d Duration) FilterZero() Duration {
+	if !d.IsPresent() || d.duration.Nanoseconds() == 0 {
+		return emptyDuration
+	}
+
+	return d
+}
+
 // DurationSeconds is wrapper over Duration to be used in JSON and SQL mappers
 type DurationSeconds struct {
 	Duration

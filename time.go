@@ -25,6 +25,16 @@ func (t Time) OrNow() time.Time {
 	return t.OrElse(time.Now())
 }
 
+// FilterZero applies zero value filtering
+// This method will return empty optional if value inside optional is zero or missing
+func (t Time) FilterZero() Time {
+	if !t.IsPresent() || t.time.IsZero() {
+		return emptyTime
+	}
+
+	return t
+}
+
 // TimeUnixSeconds is wrapper over Time to be used in JSON and SQL mappers
 type TimeUnixSeconds struct {
 	Time
