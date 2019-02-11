@@ -1,4 +1,8 @@
 # Summary
+
+[![](https://godoc.org/github.com/mono83/optional?status.svg)](http://godoc.org/github.com/mono83/optional)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mono83/optional)](https://goreportcard.com/report/github.com/mono83/optional)
+
 This library has two major goals:
 
 1. Provide data types to be used during incoming and outgoing data mapping for optional values
