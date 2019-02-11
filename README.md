@@ -1,7 +1,11 @@
 # Summary
 
+[![Build Status](https://travis-ci.org/mono83/optional.svg?branch=master)](https://travis-ci.org/mono83/optional)
 [![](https://godoc.org/github.com/mono83/optional?status.svg)](http://godoc.org/github.com/mono83/optional)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mono83/optional)](https://goreportcard.com/report/github.com/mono83/optional)
+![](https://img.shields.io/badge/Go-1.7%2B-green.svg)
+![](https://img.shields.io/github/tag/mono83/optional.svg?style=flat)
+
 
 This library has two major goals:
 
