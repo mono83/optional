@@ -10,7 +10,7 @@ const optEmptyString = "Optional.Empty"
 func (b Bool) String() string {
 	if !b.IsPresent() {
 		return "Optional.Empty"
-	} else if *b.bool {
+	} else if b.value {
 		return "Optional[true]"
 	}
 
@@ -19,21 +19,21 @@ func (b Bool) String() string {
 
 func (i Int) String() string {
 	if i.IsPresent() {
-		return "Optional[" + strconv.Itoa(*i.int) + "]"
+		return "Optional[" + strconv.Itoa(i.value) + "]"
 	}
 	return optEmptyString
 }
 
 func (s String) String() string {
 	if s.IsPresent() {
-		return "Optional[" + *s.string + "]"
+		return "Optional[" + s.value + "]"
 	}
 	return optEmptyString
 }
 
 func (f Float64) String() string {
 	if f.IsPresent() {
-		return fmt.Sprintf("Optional[%f]", *f.float64)
+		return fmt.Sprintf("Optional[%f]", f.value)
 	}
 
 	return optEmptyString
@@ -41,7 +41,7 @@ func (f Float64) String() string {
 
 func (t Time) String() string {
 	if t.IsPresent() {
-		return "Optional[" + t.time.String() + "]"
+		return "Optional[" + t.value.String() + "]"
 	}
 
 	return optEmptyString
@@ -49,7 +49,7 @@ func (t Time) String() string {
 
 func (d Duration) String() string {
 	if d.IsPresent() {
-		return "Optional[" + d.duration.String() + "]"
+		return "Optional[" + d.value.String() + "]"
 	}
 
 	return optEmptyString

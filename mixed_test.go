@@ -7,7 +7,7 @@ import (
 
 func TestMixedPresentOrElse(t *testing.T) {
 	// Is present
-	assert.False(t, emptyMixed.IsPresent())
+	assert.False(t, Mixed{}.IsPresent())
 	assert.False(t, OfMixed(nil).IsPresent())
 	ref := 5
 	assert.True(t, OfMixed(&ref).IsPresent())

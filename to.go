@@ -8,19 +8,19 @@ import (
 // ToString returns optional string, built from value of optional int
 func (i Int) ToString() String {
 	if i.IsPresent() {
-		return OfString(strconv.Itoa(*i.int))
+		return OfString(strconv.Itoa(i.value))
 	}
 
-	return emptyString
+	return String{}
 }
 
 // ToDurationSeconds return optional time.Duration, built from value of optional int
 func (i Int) ToDurationSeconds() DurationSeconds {
 	if i.IsPresent() {
-		return OfSeconds(*i.int)
+		return OfSeconds(i.value)
 	}
 
-	return emptyDurationSeconds
+	return DurationSeconds{}
 }
 
 // ToUnixSeconds return optional int, built from value of optional time
@@ -28,10 +28,10 @@ func (i Int) ToDurationSeconds() DurationSeconds {
 // unix timestamp in seconds
 func (t Time) ToUnixSeconds() Int {
 	if t.IsPresent() {
-		return OfInt(int(t.time.Unix()))
+		return OfInt(int(t.value.Unix()))
 	}
 
-	return emptyInt
+	return Int{}
 }
 
 // ToUnixMillis return optional int, built from value of optional time
@@ -39,26 +39,26 @@ func (t Time) ToUnixSeconds() Int {
 // unix timestamp in milliseconds
 func (t Time) ToUnixMillis() Int {
 	if t.IsPresent() {
-		return OfInt(int(t.time.UnixNano() / 1000000))
+		return OfInt(int(t.value.UnixNano() / 1000000))
 	}
-	return emptyInt
+	return Int{}
 
 }
 
 // ToSeconds returns optional float64, built from value of optional duration
 func (d Duration) ToSeconds() Float64 {
 	if d.IsPresent() {
-		return OfFloat64(d.duration.Seconds())
+		return OfFloat64(d.value.Seconds())
 	}
 
-	return emptyFloat64
+	return Float64{}
 }
 
 // ToMillis returns optional int, built from value of optional duration
 func (d Duration) ToMillis() Int {
 	if d.IsPresent() {
-		return OfInt(int(*d.duration / time.Millisecond))
+		return OfInt(int(d.value / time.Millisecond))
 	}
 
-	return emptyInt
+	return Int{}
 }

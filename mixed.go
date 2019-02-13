@@ -1,7 +1,5 @@
 package optional
 
-var emptyMixed = Mixed{}
-
 // Mixed represents arbitrary interface{} optional
 type Mixed struct {
 	mixed interface{}

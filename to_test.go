@@ -11,17 +11,17 @@ var dataTo = []struct {
 	Expected interface{}
 	Given    interface{}
 }{
-	{emptyString, emptyInt.ToString()},
+	{String{}, Int{}.ToString()},
 	{OfString("72"), OfInt(72).ToString()},
-	{DurationSeconds{}, emptyInt.ToDurationSeconds()},
+	{DurationSeconds{}, Int{}.ToDurationSeconds()},
 	{OfSeconds(60), OfInt(60).ToDurationSeconds()},
-	{emptyInt, emptyTime.ToUnixSeconds()},
+	{Int{}, Time{}.ToUnixSeconds()},
 	{OfInt(10), OfTime(time.Unix(10, 20000000)).ToUnixSeconds()},
-	{emptyInt, emptyTime.ToUnixMillis()},
+	{Int{}, Time{}.ToUnixMillis()},
 	{OfInt(10020), OfTime(time.Unix(10, 20000000)).ToUnixMillis()},
-	{emptyFloat64, emptyDuration.ToSeconds()},
+	{Float64{}, Duration{}.ToSeconds()},
 	{OfFloat64(60), OfDuration(time.Minute).ToSeconds()},
-	{emptyInt, emptyDuration.ToMillis()},
+	{Int{}, Duration{}.ToMillis()},
 	{OfInt(2000), OfDuration(time.Second * 2).ToMillis()},
 }
 

@@ -39,11 +39,11 @@ func main() {
 
 # Features
 
-Supported mapping:
+### Supported mapping:
 * JSON
 * SQL
 
-Data types:
+### Data types, all of them are immutable:
 * `optional.Bool` - for booleans
 * `optional.Int` - for integers
 * `optional.String` - for strings
@@ -52,7 +52,7 @@ Data types:
 * `optional.Duration` - for `time.Duration`, mapping using `optional.DurationSeconds`,
   `optional.DurationMillis` or `optional.DurationMinutes`
 
-Common methods for all data types:
+### Common methods for all data types:
 * `Get` - returns value from optional, but panics if optional is empty
 * `OrElse(els)` - returns value from optional or provided `els` value if optional is empty
 * `IsPresent` - returns `true` if optional contains vaue, `false` otherwise

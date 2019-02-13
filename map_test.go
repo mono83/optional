@@ -11,35 +11,35 @@ var mapDataEmpty = []struct {
 	Expected interface{}
 	Given    interface{}
 }{
-	{emptyString, emptyBool.MapToString(func(bool) string { return "foo" })},
-	{emptyString, emptyInt.MapToString(func(int) string { return "foo" })},
-	{emptyString, emptyFloat64.MapToString(func(float64) string { return "foo" })},
-	{emptyString, emptyMixed.MapToString(func(interface{}) string { return "foo" })},
-	{emptyString, emptyString.Map(func(string) string { return "foo" })},
+	{String{}, Bool{}.MapToString(func(bool) string { return "foo" })},
+	{String{}, Int{}.MapToString(func(int) string { return "foo" })},
+	{String{}, Float64{}.MapToString(func(float64) string { return "foo" })},
+	{String{}, Mixed{}.MapToString(func(interface{}) string { return "foo" })},
+	{String{}, String{}.Map(func(string) string { return "foo" })},
 
-	{emptyInt, emptyBool.MapToInt(func(bool) int { return 5 })},
-	{emptyInt, emptyString.MapToInt(func(string) int { return 5 })},
-	{emptyInt, emptyFloat64.MapToInt(func(float64) int { return 5 })},
-	{emptyInt, emptyMixed.MapToInt(func(interface{}) int { return 5 })},
-	{emptyInt, emptyInt.Map(func(int) int { return 5 })},
+	{Int{}, Bool{}.MapToInt(func(bool) int { return 5 })},
+	{Int{}, String{}.MapToInt(func(string) int { return 5 })},
+	{Int{}, Float64{}.MapToInt(func(float64) int { return 5 })},
+	{Int{}, Mixed{}.MapToInt(func(interface{}) int { return 5 })},
+	{Int{}, Int{}.Map(func(int) int { return 5 })},
 
-	{emptyBool, emptyInt.MapToBool(func(int) bool { return true })},
-	{emptyBool, emptyString.MapToBool(func(string) bool { return true })},
-	{emptyBool, emptyFloat64.MapToBool(func(float64) bool { return true })},
-	{emptyBool, emptyMixed.MapToBool(func(interface{}) bool { return true })},
-	{emptyBool, emptyBool.Map(func(bool) bool { return true })},
+	{Bool{}, Int{}.MapToBool(func(int) bool { return true })},
+	{Bool{}, String{}.MapToBool(func(string) bool { return true })},
+	{Bool{}, Float64{}.MapToBool(func(float64) bool { return true })},
+	{Bool{}, Mixed{}.MapToBool(func(interface{}) bool { return true })},
+	{Bool{}, Bool{}.Map(func(bool) bool { return true })},
 
-	{emptyFloat64, emptyInt.MapToFloat64(func(int) float64 { return .1 })},
-	{emptyFloat64, emptyString.MapToFloat64(func(string) float64 { return .1 })},
-	{emptyFloat64, emptyBool.MapToFloat64(func(bool) float64 { return .1 })},
-	{emptyFloat64, emptyMixed.MapToFloat64(func(interface{}) float64 { return .1 })},
-	{emptyFloat64, emptyFloat64.Map(func(float64) float64 { return .1 })},
+	{Float64{}, Int{}.MapToFloat64(func(int) float64 { return .1 })},
+	{Float64{}, String{}.MapToFloat64(func(string) float64 { return .1 })},
+	{Float64{}, Bool{}.MapToFloat64(func(bool) float64 { return .1 })},
+	{Float64{}, Mixed{}.MapToFloat64(func(interface{}) float64 { return .1 })},
+	{Float64{}, Float64{}.Map(func(float64) float64 { return .1 })},
 
-	{emptyMixed, emptyMixed.Map(func(interface{}) interface{} { return "foo" })},
+	{Mixed{}, Mixed{}.Map(func(interface{}) interface{} { return "foo" })},
 
-	{emptyTime, emptyTime.Map(func(time.Time) time.Time { return time.Now() })},
+	{Time{}, Time{}.Map(func(time.Time) time.Time { return time.Now() })},
 
-	{emptyDuration, emptyDuration.Map(func(time.Duration) time.Duration { return time.Hour })},
+	{Duration{}, Duration{}.Map(func(time.Duration) time.Duration { return time.Hour })},
 }
 
 func TestMapEmpty(t *testing.T) {

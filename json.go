@@ -10,92 +10,105 @@ var jsonNull = []byte("null")
 
 // MarshalJSON is json.Marshaler interface implementation
 func (b Bool) MarshalJSON() (text []byte, err error) {
-	return json.Marshal(b.bool)
+	if !b.IsPresent() {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(b.value)
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (b *Bool) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		*b = emptyBool
+		*b = Bool{}
 		return nil
 	}
-	t := OfBool(false)
-	if err := json.Unmarshal(text, t.bool); err != nil {
+	var value bool
+	if err := json.Unmarshal(text, &value); err != nil {
 		return err
 	}
-	*b = t
+	b.set(value)
 	return nil
 }
 
 // MarshalJSON is json.Marshaler interface implementation
 func (i Int) MarshalJSON() (text []byte, err error) {
-	return json.Marshal(i.int)
+	if !i.IsPresent() {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(i.value)
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (i *Int) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		*i = emptyInt
+		*i = Int{}
 		return nil
 	}
-	t := OfInt(0)
-	if err := json.Unmarshal(text, t.int); err != nil {
+	var value int
+	if err := json.Unmarshal(text, &value); err != nil {
 		return err
 	}
-	*i = t
+	i.set(value)
 	return nil
 }
 
 // MarshalJSON is json.Marshaler interface implementation
 func (s String) MarshalJSON() (text []byte, err error) {
-	return json.Marshal(s.string)
+	if !s.IsPresent() {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(s.value)
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (s *String) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		*s = emptyString
+		*s = String{}
 		return nil
 	}
-	t := OfString("")
-	if err := json.Unmarshal(text, t.string); err != nil {
+	var value string
+	if err := json.Unmarshal(text, &value); err != nil {
 		return err
 	}
-	*s = t
+	s.set(value)
 	return nil
 }
 
 // MarshalJSON is json.Marshaler interface implementation
 func (f Float64) MarshalJSON() (text []byte, err error) {
-	return json.Marshal(f.float64)
+	if !f.presents {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(f.value)
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (f *Float64) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		*f = emptyFloat64
+		*f = Float64{}
 		return nil
 	}
-	t := OfFloat64(0)
-	if err := json.Unmarshal(text, t.float64); err != nil {
+
+	var value float64
+	if err := json.Unmarshal(text, &value); err != nil {
 		return err
 	}
-	*f = t
+	f.set(value)
 	return nil
 }
 
 // MarshalJSON is json.Marshaler interface implementation
 func (t TimeUnixSeconds) MarshalJSON() (text []byte, err error) {
-	if t.time == nil {
+	if !t.IsPresent() {
 		return json.Marshal(nil)
 	}
-	return json.Marshal(t.time.Unix())
+	return json.Marshal(t.value.Unix())
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (t *TimeUnixSeconds) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		t.time = nil
+		*t = TimeUnixSeconds{}
 		return nil
 	}
 	var sec int
@@ -109,16 +122,16 @@ func (t *TimeUnixSeconds) UnmarshalJSON(text []byte) error {
 
 // MarshalJSON is json.Marshaler interface implementation
 func (d DurationSeconds) MarshalJSON() (text []byte, err error) {
-	if d.duration == nil {
+	if !d.IsPresent() {
 		return json.Marshal(nil)
 	}
-	return json.Marshal(int(*d.duration / time.Second))
+	return json.Marshal(int(d.value / time.Second))
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (d *DurationSeconds) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		d.duration = nil
+		*d = DurationSeconds{}
 		return nil
 	}
 	var sec int
@@ -132,16 +145,16 @@ func (d *DurationSeconds) UnmarshalJSON(text []byte) error {
 
 // MarshalJSON is json.Marshaler interface implementation
 func (d DurationMillis) MarshalJSON() (text []byte, err error) {
-	if d.duration == nil {
+	if !d.IsPresent() {
 		return json.Marshal(nil)
 	}
-	return json.Marshal(int(*d.duration / time.Millisecond))
+	return json.Marshal(int(d.value / time.Millisecond))
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (d *DurationMillis) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		d.duration = nil
+		*d = DurationMillis{}
 		return nil
 	}
 	var millis int
@@ -155,16 +168,16 @@ func (d *DurationMillis) UnmarshalJSON(text []byte) error {
 
 // MarshalJSON is json.Marshaler interface implementation
 func (d DurationMinutes) MarshalJSON() (text []byte, err error) {
-	if d.duration == nil {
+	if !d.IsPresent() {
 		return json.Marshal(nil)
 	}
-	return json.Marshal(int(*d.duration / time.Minute))
+	return json.Marshal(int(d.value / time.Minute))
 }
 
 // UnmarshalJSON is json.Unmarshaler interface implementation
 func (d *DurationMinutes) UnmarshalJSON(text []byte) error {
 	if bytes.Equal(jsonNull, text) {
-		d.duration = nil
+		*d = DurationMinutes{}
 		return nil
 	}
 	var minutes int

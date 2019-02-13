@@ -9,18 +9,16 @@ import (
 // Scan is sql.Scanner interface implementation
 func (b *Bool) Scan(src interface{}) error {
 	if src == nil {
-		*b = emptyBool
+		*b = Bool{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
-		v := sc == "true" || sc == "1"
-		b.bool = &v
+		sc := string(x)
+		b.set(sc == "true" || sc == "1")
 	case bool:
-		v := src.(bool)
-		b.bool = &v
+		b.set(x)
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}
@@ -31,24 +29,22 @@ func (b *Bool) Scan(src interface{}) error {
 // Scan is sql.Scanner interface implementation
 func (i *Int) Scan(src interface{}) error {
 	if src == nil {
-		*i = emptyInt
+		*i = Int{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
+		sc := string(x)
 		ic, err := strconv.Atoi(sc)
 		if err != nil {
 			return err
 		}
-		i.int = &ic
+		i.set(ic)
 	case int64:
-		v := int(src.(int64))
-		i.int = &v
+		i.set(int(x))
 	case int:
-		v := src.(int)
-		i.int = &v
+		i.set(x)
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}
@@ -59,17 +55,15 @@ func (i *Int) Scan(src interface{}) error {
 // Scan is sql.Scanner interface implementation
 func (s *String) Scan(src interface{}) error {
 	if src == nil {
-		*s = emptyString
+		*s = String{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
-		s.string = &sc
+		s.set(string(x))
 	case string:
-		v := src.(string)
-		s.string = &v
+		s.set(x)
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}
@@ -80,24 +74,22 @@ func (s *String) Scan(src interface{}) error {
 // Scan is sql.Scanner interface implementation
 func (f *Float64) Scan(src interface{}) error {
 	if src == nil {
-		*f = emptyFloat64
+		*f = Float64{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
+		sc := string(x)
 		ic, err := strconv.ParseFloat(sc, 64)
 		if err != nil {
 			return err
 		}
-		f.float64 = &ic
+		f.set(ic)
 	case float64:
-		v := src.(float64)
-		f.float64 = &v
+		f.set(x)
 	case int:
-		v := float64(src.(int))
-		f.float64 = &v
+		f.set(float64(x))
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}
@@ -108,28 +100,24 @@ func (f *Float64) Scan(src interface{}) error {
 // Scan is sql.Scanner interface implementation
 func (t *TimeUnixSeconds) Scan(src interface{}) error {
 	if src == nil {
-		t.time = nil
+		*t = TimeUnixSeconds{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
+		sc := string(x)
 		ic, err := strconv.Atoi(sc)
 		if err != nil {
 			return err
 		}
-		tc := time.Unix(int64(ic), 0).UTC()
-		t.time = &tc
+		t.set(time.Unix(int64(ic), 0).UTC())
 	case int64:
-		v := time.Unix(src.(int64), 0).UTC()
-		t.time = &v
+		t.set(time.Unix(x, 0).UTC())
 	case int:
-		v := time.Unix(int64(src.(int)), 0).UTC()
-		t.time = &v
+		t.set(time.Unix(int64(x), 0).UTC())
 	case time.Time:
-		v := src.(time.Time)
-		t.time = &v
+		t.set(x)
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}
@@ -140,28 +128,24 @@ func (t *TimeUnixSeconds) Scan(src interface{}) error {
 // Scan is sql.Scanner interface implementation
 func (d *DurationSeconds) Scan(src interface{}) error {
 	if src == nil {
-		d.duration = nil
+		*d = DurationSeconds{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
+		sc := string(x)
 		ic, err := strconv.Atoi(sc)
 		if err != nil {
 			return err
 		}
-		tc := time.Duration(int64(ic)) * time.Second
-		d.duration = &tc
+		d.set(time.Duration(int64(ic)) * time.Second)
 	case int64:
-		v := time.Duration(src.(int64)) * time.Second
-		d.duration = &v
+		d.set(time.Duration(x) * time.Second)
 	case int:
-		v := time.Duration(int64(src.(int))) * time.Second
-		d.duration = &v
+		d.set(time.Duration(int64(x)) * time.Second)
 	case time.Duration:
-		v := src.(time.Duration)
-		d.duration = &v
+		d.set(x)
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}
@@ -172,28 +156,24 @@ func (d *DurationSeconds) Scan(src interface{}) error {
 // Scan is sql.Scanner interface implementation
 func (d *DurationMillis) Scan(src interface{}) error {
 	if src == nil {
-		d.duration = nil
+		*d = DurationMillis{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
+		sc := string(x)
 		ic, err := strconv.Atoi(sc)
 		if err != nil {
 			return err
 		}
-		tc := time.Duration(int64(ic)) * time.Millisecond
-		d.duration = &tc
+		d.set(time.Duration(int64(ic)) * time.Millisecond)
 	case int64:
-		v := time.Duration(src.(int64)) * time.Millisecond
-		d.duration = &v
+		d.set(time.Duration(x) * time.Millisecond)
 	case int:
-		v := time.Duration(int64(src.(int))) * time.Millisecond
-		d.duration = &v
+		d.set(time.Duration(int64(x)) * time.Millisecond)
 	case time.Duration:
-		v := src.(time.Duration)
-		d.duration = &v
+		d.set(x)
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}
@@ -204,28 +184,24 @@ func (d *DurationMillis) Scan(src interface{}) error {
 // Scan is sql.Scanner interface implementation
 func (d *DurationMinutes) Scan(src interface{}) error {
 	if src == nil {
-		d.duration = nil
+		*d = DurationMinutes{}
 		return nil
 	}
 
-	switch src.(type) {
+	switch x := src.(type) {
 	case []byte:
-		sc := string(src.([]byte))
+		sc := string(x)
 		ic, err := strconv.Atoi(sc)
 		if err != nil {
 			return err
 		}
-		tc := time.Duration(int64(ic)) * time.Minute
-		d.duration = &tc
+		d.set(time.Duration(int64(ic)) * time.Minute)
 	case int64:
-		v := time.Duration(src.(int64)) * time.Minute
-		d.duration = &v
+		d.set(time.Duration(x) * time.Minute)
 	case int:
-		v := time.Duration(int64(src.(int))) * time.Minute
-		d.duration = &v
+		d.set(time.Duration(int64(x)) * time.Minute)
 	case time.Duration:
-		v := src.(time.Duration)
-		d.duration = &v
+		d.set(x)
 	default:
 		return fmt.Errorf("unsupported type %T for scanning", src)
 	}

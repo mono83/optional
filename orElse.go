@@ -5,7 +5,7 @@ import "time"
 // OrElse returns value from optional or provided value if optional is empty
 func (b Bool) OrElse(els bool) bool {
 	if b.IsPresent() {
-		return *b.bool
+		return b.value
 	}
 	return els
 }
@@ -13,7 +13,7 @@ func (b Bool) OrElse(els bool) bool {
 // OrElse returns value from optional or provided value if optional is empty
 func (s String) OrElse(els string) string {
 	if s.IsPresent() {
-		return *s.string
+		return s.value
 	}
 	return els
 }
@@ -21,7 +21,7 @@ func (s String) OrElse(els string) string {
 // OrElse returns value from optional or provided value if optional is empty
 func (i Int) OrElse(els int) int {
 	if i.IsPresent() {
-		return *i.int
+		return i.value
 	}
 	return els
 }
@@ -29,7 +29,7 @@ func (i Int) OrElse(els int) int {
 // OrElse returns value from optional or provided value if optional is empty
 func (f Float64) OrElse(els float64) float64 {
 	if f.IsPresent() {
-		return *f.float64
+		return f.value
 	}
 	return els
 }
@@ -37,7 +37,7 @@ func (f Float64) OrElse(els float64) float64 {
 // OrElse returns value from optional or provided value if optional is empty
 func (t Time) OrElse(els time.Time) time.Time {
 	if t.IsPresent() {
-		return *t.time
+		return t.value
 	}
 	return els
 }
@@ -45,7 +45,7 @@ func (t Time) OrElse(els time.Time) time.Time {
 // OrElse returns value from optional or provided value if optional is empty
 func (d Duration) OrElse(els time.Duration) time.Duration {
 	if d.IsPresent() {
-		return *d.duration
+		return d.value
 	}
 	return els
 }

@@ -6,7 +6,7 @@ import "time"
 // If optional is empty, callback will not be invoked
 func (b Bool) IfPresent(f func(bool)) Bool {
 	if f != nil && b.IsPresent() {
-		f(*b.bool)
+		f(b.value)
 	}
 
 	return b
@@ -16,7 +16,7 @@ func (b Bool) IfPresent(f func(bool)) Bool {
 // If optional is empty, callback will not be invoked
 func (s String) IfPresent(f func(string)) String {
 	if f != nil && s.IsPresent() {
-		f(*s.string)
+		f(s.value)
 	}
 
 	return s
@@ -26,7 +26,7 @@ func (s String) IfPresent(f func(string)) String {
 // If optional is empty, callback will not be invoked
 func (i Int) IfPresent(f func(int)) Int {
 	if f != nil && i.IsPresent() {
-		f(*i.int)
+		f(i.value)
 	}
 
 	return i
@@ -36,7 +36,7 @@ func (i Int) IfPresent(f func(int)) Int {
 // If optional is empty, callback will not be invoked
 func (f Float64) IfPresent(c func(float64)) Float64 {
 	if c != nil && f.IsPresent() {
-		c(*f.float64)
+		c(f.value)
 	}
 
 	return f
@@ -46,7 +46,7 @@ func (f Float64) IfPresent(c func(float64)) Float64 {
 // If optional is empty, callback will not be invoked
 func (t Time) IfPresent(f func(time.Time)) Time {
 	if f != nil && t.IsPresent() {
-		f(*t.time)
+		f(t.value)
 	}
 
 	return t
@@ -56,7 +56,7 @@ func (t Time) IfPresent(f func(time.Time)) Time {
 // If optional is empty, callback will not be invoked
 func (d Duration) IfPresent(f func(time.Duration)) Duration {
 	if f != nil && d.IsPresent() {
-		f(*d.duration)
+		f(d.value)
 	}
 
 	return d

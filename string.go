@@ -2,31 +2,35 @@ package optional
 
 import "strings"
 
-var emptyString = String{}
-
 // String contains optional string value
 type String struct {
-	*string
+	value    string
+	presents bool
+}
+
+func (s *String) set(value string) {
+	s.value = value
+	s.presents = true
 }
 
 // OfString creates new optional string containing provided value
 func OfString(s string) String {
-	return String{string: &s}
+	return String{value: s, presents: true}
 }
 
 // Trim applies whitespace trim mapping and returns optional with new value
 func (s String) Trim() String {
-	if s.string == nil {
+	if !s.IsPresent() {
 		return s
 	}
 
-	return OfString(strings.TrimSpace(*s.string))
+	return OfString(strings.TrimSpace(s.value))
 }
 
 // FilterEmpty applies empty (but not whitespace) filtering and returns optional
 func (s String) FilterEmpty() String {
-	if s.string == nil || len(*s.string) == 0 {
-		return emptyString
+	if !s.IsPresent() || len(s.value) == 0 {
+		return String{}
 	}
 
 	return s

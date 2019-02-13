@@ -7,5 +7,5 @@ import (
 
 func TestBool_OrFalse(t *testing.T) {
 	assert.True(t, OfBool(true).OrFalse())
-	assert.False(t, emptyBool.OrFalse())
+	assert.False(t, Bool{}.OrFalse())
 }

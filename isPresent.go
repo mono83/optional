@@ -4,32 +4,32 @@ import "reflect"
 
 // IsPresent returns true if optional contains value and false for null
 func (b Bool) IsPresent() bool {
-	return b.bool != nil
+	return b.presents
 }
 
 // IsPresent returns true if optional contains value and false for null
 func (s String) IsPresent() bool {
-	return s.string != nil
+	return s.presents
 }
 
 // IsPresent returns true if optional contains value and false for null
 func (i Int) IsPresent() bool {
-	return i.int != nil
+	return i.presents
 }
 
 // IsPresent returns true if optional contains value and false for null
 func (f Float64) IsPresent() bool {
-	return f.float64 != nil
+	return f.presents
 }
 
 // IsPresent returns true if optional contains value and false for null
 func (t Time) IsPresent() bool {
-	return t.time != nil
+	return t.presents
 }
 
 // IsPresent returns true if optional contains value and false for null
 func (d Duration) IsPresent() bool {
-	return d.duration != nil
+	return d.presents
 }
 
 // IsPresent returns true if optional contains value and false for null
