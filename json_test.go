@@ -110,7 +110,7 @@ func TestJSONMarshalling(t *testing.T) {
 	}
 }
 
-var dataJsonError = []struct {
+var dataJSONError = []struct {
 	Source string
 	Target interface {
 		UnmarshalJSON(text []byte) error
@@ -127,7 +127,7 @@ var dataJsonError = []struct {
 }
 
 func TestJsonError(t *testing.T) {
-	for _, data := range dataJsonError {
+	for _, data := range dataJSONError {
 		t.Run(fmt.Sprint(data.Source, " ", data.Target), func(t *testing.T) {
 			assert.Error(t, data.Target.UnmarshalJSON([]byte(data.Source)))
 		})
