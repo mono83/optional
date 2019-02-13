@@ -2,6 +2,7 @@ package optional
 
 import (
 	"encoding/json"
+	"fmt"
 	"testing"
 	"time"
 
@@ -106,5 +107,29 @@ func TestJSONMarshalling(t *testing.T) {
 		if bts, err := json.MarshalIndent(target, "", "  "); assert.NoError(t, err) {
 			assert.Equal(t, textSource, string(bts))
 		}
+	}
+}
+
+var dataJsonError = []struct {
+	Source string
+	Target interface {
+		UnmarshalJSON(text []byte) error
+	}
+}{
+	{"1", &Bool{}},
+	{"\"1\"", &Int{}},
+	{"\"1\"", &Float64{}},
+	{"1", &String{}},
+	{"\"1\"", &TimeUnixSeconds{}},
+	{"\"1\"", &DurationSeconds{}},
+	{"\"1\"", &DurationMillis{}},
+	{"\"1\"", &DurationMinutes{}},
+}
+
+func TestJsonError(t *testing.T) {
+	for _, data := range dataJsonError {
+		t.Run(fmt.Sprint(data.Source, " ", data.Target), func(t *testing.T) {
+			assert.Error(t, data.Target.UnmarshalJSON([]byte(data.Source)))
+		})
 	}
 }

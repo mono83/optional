@@ -1,6 +1,7 @@
 package optional
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -25,6 +26,8 @@ var scanData = []struct {
 	{nil, &Float64{}, false, "Optional.Empty"},
 	{nil, &TimeUnixSeconds{}, false, "Optional.Empty"},
 	{nil, &DurationSeconds{}, false, "Optional.Empty"},
+	{nil, &DurationMinutes{}, false, "Optional.Empty"},
+	{nil, &DurationMillis{}, false, "Optional.Empty"},
 
 	{[]uint8("true"), &Bool{}, true, "Optional[true]"},
 	{[]uint8("1"), &Bool{}, true, "Optional[true]"},
@@ -77,6 +80,40 @@ func TestScan(t *testing.T) {
 				assert.Equal(t, data.Present, data.Target.IsPresent())
 				assert.Equal(t, data.String, data.Target.String())
 			}
+		})
+	}
+}
+
+var scanErrorData = []struct {
+	Source interface{}
+	Target uniOptional
+}{
+	{"true", &Bool{}},
+	{1, &Bool{}},
+	{[]uint8("2a"), &Int{}},
+	{"1", &Int{}},
+	{true, &Int{}},
+	{1., &Int{}},
+	{[]uint8("2a"), &Float64{}},
+	{"1", &Float64{}},
+	{true, &Float64{}},
+	{1, &String{}},
+	{1., &String{}},
+	{true, &String{}},
+	{[]uint8("2a"), &TimeUnixSeconds{}},
+	{"2a", &TimeUnixSeconds{}},
+	{[]uint8("2a"), &DurationSeconds{}},
+	{"2a", &DurationSeconds{}},
+	{[]uint8("2a"), &DurationMinutes{}},
+	{"2a", &DurationMinutes{}},
+	{[]uint8("2a"), &DurationMillis{}},
+	{"2a", &DurationMillis{}},
+}
+
+func TestScanErrors(t *testing.T) {
+	for _, data := range scanErrorData {
+		t.Run(fmt.Sprint(data.Source), func(t *testing.T) {
+			assert.Error(t, data.Target.Scan(data.Source))
 		})
 	}
 }
