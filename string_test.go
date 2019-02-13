@@ -8,6 +8,7 @@ import (
 func TestString_Trim(t *testing.T) {
 	assert.Equal(t, OfString("foo"), OfString(" \t foo\r\n").Trim())
 	assert.Equal(t, OfString(""), OfString("  ").Trim())
+	assert.Equal(t, emptyString, emptyString.Trim())
 }
 
 func TestString_FilterEmpty(t *testing.T) {
