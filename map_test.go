@@ -55,10 +55,7 @@ var mapData = []struct {
 	Given    interface{}
 }{
 	{OfBool(false), OfBool(true).Map(func(b bool) bool {
-		if b {
-			return false
-		}
-		return true
+		return !b
 	})},
 	{OfInt(10), OfBool(true).MapToInt(func(b bool) int {
 		if b {
