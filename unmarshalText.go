@@ -32,12 +32,12 @@ func (i *Int) UnmarshalText(bts []byte) error {
 		return nil
 	}
 
-	v, err := strconv.Atoi(string(bts))
+	v, err := strconv.ParseInt(string(bts), 10, 64)
 	if err != nil {
 		return err
 	}
 
-	i.set(v)
+	i.set(int(v))
 	return nil
 }
 
@@ -75,12 +75,12 @@ func (d *DurationMillis) UnmarshalText(bts []byte) error {
 		return nil
 	}
 
-	v, err := strconv.Atoi(string(bts))
+	v, err := strconv.ParseInt(string(bts), 10, 64)
 	if err != nil {
 		return err
 	}
 
-	dd := OfMilliseconds(v)
+	dd := OfMilliseconds(int(v))
 	*d = dd
 	return nil
 }
@@ -92,12 +92,12 @@ func (d *DurationSeconds) UnmarshalText(bts []byte) error {
 		return nil
 	}
 
-	v, err := strconv.Atoi(string(bts))
+	v, err := strconv.ParseInt(string(bts), 10, 64)
 	if err != nil {
 		return err
 	}
 
-	dd := OfSeconds(v)
+	dd := OfSeconds(int(v))
 	*d = dd
 	return nil
 }
@@ -109,12 +109,12 @@ func (d *DurationMinutes) UnmarshalText(bts []byte) error {
 		return nil
 	}
 
-	v, err := strconv.Atoi(string(bts))
+	v, err := strconv.ParseInt(string(bts), 10, 64)
 	if err != nil {
 		return err
 	}
 
-	dd := OfMinutes(v)
+	dd := OfMinutes(int(v))
 	*d = dd
 	return nil
 }
@@ -126,12 +126,12 @@ func (t *TimeUnixSeconds) UnmarshalText(bts []byte) error {
 		return nil
 	}
 
-	v, err := strconv.Atoi(string(bts))
+	v, err := strconv.ParseInt(string(bts), 10, 64)
 	if err != nil {
 		return err
 	}
 
-	tt := OfUnixSeconds(v)
+	tt := OfUnixSeconds(int(v))
 	*t = tt
 	return nil
 }
