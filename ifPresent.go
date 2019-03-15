@@ -71,3 +71,13 @@ func (m Mixed) IfPresent(f func(interface{})) Mixed {
 
 	return m
 }
+
+// IfPresent invokes provided callback if optional contains some value
+// If optional is empty, callback will not be invoked
+func (e Error) IfPresent(f func(error)) Error {
+	if f != nil && e.IsPresent() {
+		f(e.value)
+	}
+
+	return e
+}

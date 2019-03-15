@@ -1,6 +1,7 @@
 package optional
 
 import (
+	"errors"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -88,4 +89,18 @@ func TestMixed_IfPresent(t *testing.T) {
 	assert.Equal(t, Mixed{}, Mixed{}.IfPresent(func(interface{}) {}))
 	assert.Equal(t, OfMixed("bar"), OfMixed("bar").IfPresent(func(interface{}) {}))
 	assert.Equal(t, OfMixed(7), OfMixed(7).IfPresent(nil))
+}
+
+func TestError_IfPresent(t *testing.T) {
+	Error{}.IfPresent(func(error) {
+		assert.Fail(t, "This method should not be invoked")
+	})
+
+	OfError(errors.New("bar")).IfPresent(func(e error) {
+		assert.Equal(t, errors.New("bar"), e)
+	})
+
+	assert.Equal(t, Error{}, Error{}.IfPresent(func(error) {}))
+	assert.Equal(t, OfError(errors.New("baz")), OfError(errors.New("baz")).IfPresent(func(error) {}))
+	assert.Equal(t, OfError(errors.New("baz")), OfError(errors.New("baz")).IfPresent(nil))
 }

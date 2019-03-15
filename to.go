@@ -62,3 +62,12 @@ func (d Duration) ToMillis() Int {
 
 	return Int{}
 }
+
+// ToString returns optional string, built from value of optional error
+func (e Error) ToString() String {
+	if e.IsPresent() {
+		return OfString(e.value.Error())
+	}
+
+	return String{}
+}

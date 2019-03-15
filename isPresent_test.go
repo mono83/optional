@@ -1,6 +1,7 @@
 package optional
 
 import (
+	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -43,6 +44,8 @@ var isPresentData = []struct {
 	{true, OfMixed("")},
 	{true, OfMixed("bar")},
 	{false, OfMixed(nil)},
+	{false, OfError(nil)},
+	{true, OfError(errors.New("foo"))},
 }
 
 func TestIsPresent(t *testing.T) {

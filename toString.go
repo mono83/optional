@@ -54,3 +54,11 @@ func (d Duration) String() string {
 
 	return optEmptyString
 }
+
+func (e Error) String() string {
+	if e.IsPresent() {
+		return "Optional[" + e.value.Error() + "]"
+	}
+
+	return optEmptyString
+}

@@ -1,6 +1,7 @@
 package optional
 
 import (
+	"errors"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -103,6 +104,19 @@ func TestFilterMixed(t *testing.T) {
 		assert.Equal(t, int16(5), i)
 		return false
 	}).Filter(func(interface{}) bool {
+		assert.Fail(t, "Should not enter this func")
+		return false
+	})
+}
+
+func TestFilterError(t *testing.T) {
+	OfError(errors.New("foo")).Filter(func(e error) bool {
+		assert.Equal(t, errors.New("foo"), e)
+		return true
+	}).Filter(func(e error) bool {
+		assert.Equal(t, errors.New("foo"), e)
+		return false
+	}).Filter(func(error) bool {
 		assert.Fail(t, "Should not enter this func")
 		return false
 	})

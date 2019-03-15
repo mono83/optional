@@ -1,6 +1,7 @@
 package optional
 
 import (
+	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -23,6 +24,8 @@ var dataTo = []struct {
 	{OfFloat64(60), OfDuration(time.Minute).ToSeconds()},
 	{Int{}, Duration{}.ToMillis()},
 	{OfInt(2000), OfDuration(time.Second * 2).ToMillis()},
+	{String{}, Error{}.ToString()},
+	{OfString("hello, World"), OfError(errors.New("hello, World")).ToString()},
 }
 
 func TestTo(t *testing.T) {

@@ -74,3 +74,14 @@ func (m Mixed) Filter(f func(interface{}) bool) Mixed {
 
 	return m
 }
+
+// Filter method applies predicate on optional content
+// Resulting optional will be non empty only if predicate returns true and original value inside
+// optional was not empty.
+func (e Error) Filter(f func(error) bool) Error {
+	if f == nil || !e.IsPresent() || !f(e.value) {
+		return Error{}
+	}
+
+	return e
+}

@@ -55,3 +55,8 @@ func (m Mixed) IsPresent() bool {
 	vo := reflect.ValueOf(m.mixed)
 	return !(vo.Kind() == reflect.Ptr && vo.IsNil())
 }
+
+// IsPresent returns true if optional contains value and false for null
+func (e Error) IsPresent() bool {
+	return e.value != nil
+}
