@@ -1,6 +1,7 @@
 package optional
 
 import (
+	"errors"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"testing"
@@ -126,6 +127,32 @@ func TestYAMLError(t *testing.T) {
 			assert.Error(t, data.Target.UnmarshalYAML(func(i interface{}) error {
 				return yaml.Unmarshal([]byte(data.Source), i)
 			}))
+		})
+	}
+}
+
+var dataYAMLErrorDelivery = []interface {
+	UnmarshalYAML(unmarshal func(interface{}) error) error
+}{
+	&Bool{},
+	&Int{},
+	&Float64{},
+	&String{},
+	&TimeUnixSeconds{},
+	&DurationSeconds{},
+	&DurationMillis{},
+	&DurationMinutes{},
+}
+
+func TestYAMLErrorDelivery(t *testing.T) {
+	err := errors.New("the error")
+	errGenerator := func(interface{}) error {
+		return err
+	}
+
+	for _, target := range dataYAMLErrorDelivery {
+		t.Run(fmt.Sprint(target), func(t *testing.T) {
+			assert.Equal(t, err, target.UnmarshalYAML(errGenerator))
 		})
 	}
 }
