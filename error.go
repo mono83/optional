@@ -16,3 +16,15 @@ func (e Error) Panic() {
 		panic(e.value)
 	}
 }
+
+// Then method invokes callback function only if current optional is empty
+// This can be used for method chaining:
+//
+// optional.OfError(nil).Then(...).Then(...).Then(...).Panic()
+func (e Error) Then(f func() error) Error {
+	if e.IsPresent() || f == nil {
+		return e
+	}
+
+	return OfError(f())
+}
