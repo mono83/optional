@@ -16,6 +16,15 @@ func OfInt(i int) Int {
 	return Int{value: i, presents: true}
 }
 
+// OfIntRef creates new optional integer containing provided value
+func OfIntRef(i *int) Int {
+	if i == nil {
+		return Int{}
+	}
+
+	return OfInt(*i)
+}
+
 // FilterZero applies zero value filtering
 // This method will return empty optional if value inside optional is zero or missing
 func (i Int) FilterZero() Int {

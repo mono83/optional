@@ -16,6 +16,15 @@ func OfBool(b bool) Bool {
 	return Bool{value: b, presents: true}
 }
 
+// OfBoolRef creates new optional boolean containing provided value
+func OfBoolRef(b *bool) Bool {
+	if b == nil {
+		return Bool{}
+	}
+
+	return OfBool(*b)
+}
+
 // OrFalse returns false for empty optional value
 // For other cases it will return optional value
 func (b Bool) OrFalse() bool {

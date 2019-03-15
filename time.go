@@ -18,10 +18,28 @@ func OfTime(t time.Time) Time {
 	return Time{value: t, presents: true}
 }
 
+// OfTimeRef creates new optional time.Time containing provided value
+func OfTimeRef(t *time.Time) Time {
+	if t == nil {
+		return Time{}
+	}
+
+	return OfTime(*t)
+}
+
 // OfUnixSeconds creates new optional time.Time containing provided unix timestamp in seconds
 func OfUnixSeconds(sec int) TimeUnixSeconds {
 	ts := time.Unix(int64(sec), 0).UTC()
 	return TimeUnixSeconds{Time: Time{value: ts, presents: true}}
+}
+
+// OfUnixSecondsRef creates new optional time.Time containing provided unix timestamp in seconds
+func OfUnixSecondsRef(sec *int) TimeUnixSeconds {
+	if sec == nil {
+		return TimeUnixSeconds{}
+	}
+
+	return OfUnixSeconds(*sec)
 }
 
 // OrNow returns value from optional or current time if optional is empty

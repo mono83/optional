@@ -18,6 +18,15 @@ func OfString(s string) String {
 	return String{value: s, presents: true}
 }
 
+// OfStringRef creates new optional string containing provided value
+func OfStringRef(s *string) String {
+	if s == nil {
+		return String{}
+	}
+
+	return OfString(*s)
+}
+
 // Trim applies whitespace trim mapping and returns optional with new value
 func (s String) Trim() String {
 	if !s.IsPresent() {

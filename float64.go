@@ -16,6 +16,15 @@ func OfFloat64(f float64) Float64 {
 	return Float64{value: f, presents: true}
 }
 
+// OfFloat64Ref creates new optional float64 containing provided value
+func OfFloat64Ref(f *float64) Float64 {
+	if f == nil {
+		return Float64{}
+	}
+
+	return OfFloat64(*f)
+}
+
 // FilterZero applies zero value filtering
 // This method will return empty optional if value inside optional is zero or missing
 func (f Float64) FilterZero() Float64 {

@@ -16,3 +16,11 @@ func TestString_FilterEmpty(t *testing.T) {
 	assert.Equal(t, OfString(" "), OfString(" ").FilterEmpty())
 	assert.Equal(t, String{}, OfString("").FilterEmpty())
 }
+
+func TestOfStringRef(t *testing.T) {
+	var sRef *string
+	assert.False(t, OfStringRef(sRef).IsPresent())
+	s := "foo"
+	sRef = &s
+	assert.True(t, OfStringRef(sRef).IsPresent())
+}
