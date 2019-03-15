@@ -1,6 +1,7 @@
 package optional
 
 import (
+	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"reflect"
@@ -34,6 +35,8 @@ var getData = []struct {
 	{"foo", OfMixed("foo")},
 	{0, OfMixed(0)},
 	{nil, OfMixed(nil)},
+	{errors.New("foo"), OfError(errors.New("foo"))},
+	{nil, OfError(nil)},
 }
 
 func TestGet(t *testing.T) {

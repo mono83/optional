@@ -72,3 +72,14 @@ func (m Mixed) Get() interface{} {
 
 	return m.mixed
 }
+
+// Get returns value from optional.
+// Invocation on empty optional will cause panic: nil in optional.Error
+// Perform .IsPresent check or use .OrElse to avoid manic
+func (e Error) Get() error {
+	if !e.IsPresent() {
+		panic("nil in optional.Error")
+	}
+
+	return e.value
+}
