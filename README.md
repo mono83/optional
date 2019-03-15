@@ -42,6 +42,8 @@ func main() {
 ### Supported mapping:
 * JSON
 * SQL
+* YAML compatible with https://github.com/go-yaml/yaml
+* TOML decoding only, compatible with https://github.com/BurntSushi/toml
 
 ### Data types, all of them are immutable:
 * `optional.Bool` - for booleans
