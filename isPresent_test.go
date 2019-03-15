@@ -9,9 +9,7 @@ import (
 
 var isPresentData = []struct {
 	Expected bool
-	Given    interface {
-		IsPresent() bool
-	}
+	Given    Optional
 }{
 	{false, Bool{}},
 	{true, OfBool(true)},
@@ -53,4 +51,43 @@ func TestIsPresent(t *testing.T) {
 			assert.Equal(t, data.Expected, data.Given.IsPresent(), fmt.Sprintf("%T fails test", data.Given))
 		})
 	}
+}
+
+var isPresentRawData = []struct {
+	Expected bool
+	Given    interface{}
+}{
+	{false, nil},
+	{true, false},
+	{true, true},
+	{true, ""},
+	{true, "foo"},
+}
+
+func TestIsPresentFunc(t *testing.T) {
+	// Testing optionals
+	for _, data := range isPresentData {
+		t.Run(fmt.Sprint(data.Given), func(t *testing.T) {
+			assert.Equal(t, data.Expected, IsPresent(data.Given), fmt.Sprintf("%T fails test", data.Given))
+		})
+	}
+
+	// Testing raw data
+	for _, data := range isPresentRawData {
+		t.Run(fmt.Sprint(data.Given), func(t *testing.T) {
+			assert.Equal(t, data.Expected, IsPresent(data.Given), fmt.Sprintf("%T fails test", data.Given))
+		})
+	}
+
+	// Empty pointer
+	var s *string
+	var i interface{}
+	i = s
+	assert.False(t, IsPresent(i), "Pointer empty reference check failed")
+
+	// Filled pointer
+	str := "foo"
+	s = &str
+	i = s
+	assert.True(t, IsPresent(i), "Pointer reference check failed")
 }

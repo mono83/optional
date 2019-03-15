@@ -2,6 +2,21 @@ package optional
 
 import "reflect"
 
+// IsPresent analyzes provided value for emptiness
+// It will return false only if provided nil or empty Optional
+func IsPresent(mix interface{}) bool {
+	if mix == nil {
+		return false
+	}
+
+	if v, ok := mix.(Optional); ok {
+		return v.IsPresent()
+	}
+
+	vo := reflect.ValueOf(mix)
+	return !(vo.Kind() == reflect.Ptr && vo.IsNil())
+}
+
 // IsPresent returns true if optional contains value and false for null
 func (b Bool) IsPresent() bool {
 	return b.presents
