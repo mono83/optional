@@ -76,7 +76,7 @@ func (s *String) UnmarshalJSON(text []byte) error {
 
 // MarshalJSON is json.Marshaler interface implementation
 func (f Float64) MarshalJSON() (text []byte, err error) {
-	if !f.presents {
+	if !f.IsPresent() {
 		return json.Marshal(nil)
 	}
 	return json.Marshal(f.value)
